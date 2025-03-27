@@ -20,6 +20,7 @@ type Message struct {
 	RoomID   string `json:"room_id"`
 }
 
+//untuk menulis pesan kepada client yang bersangkutan
 func (c *Client) writeMessage() {
 	defer func() {
 		c.Conn.Close()
@@ -46,6 +47,7 @@ func (c *Client) readMessage(hub *Hub) {
 
 	for {
 		// baca dari connection websocketnya
+		// jadi semisal ada yang connect dan dia kasih sebuah message maka akan dibaca
 		_, m, err := c.Conn.ReadMessage()
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {

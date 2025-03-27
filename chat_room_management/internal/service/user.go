@@ -19,7 +19,10 @@ type userService struct {
 	userRepository domain.UserRepository
 }
 
-func NewUser(cnf *config.Config, userRepository domain.UserRepository) domain.UserService {
+func NewUser(
+	cnf *config.Config,
+	userRepository domain.UserRepository,
+) domain.UserService {
 	return &userService{userRepository: userRepository, cnf: cnf}
 }
 
@@ -27,7 +30,6 @@ func NewUser(cnf *config.Config, userRepository domain.UserRepository) domain.Us
 func (u *userService) CreateUser(ctx context.Context, req dto.UserCreatedReq) (dto.UserCreatedRes, error) {
 	result, _ := u.userRepository.FindByEmail(ctx, req.Email)
 	if result.ID > 0 {
-		fmt.Println(result)
 		return dto.UserCreatedRes{}, domain.ErrEmailTaken
 	}
 
